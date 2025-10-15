@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EllaGrace: Premier TikTok Shop Partner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+        
+        :root {
+            --tiktok-black: #010101;
+            --tiktok-red: #fe2c55;
+            --tiktok-blue: #25f4ee;
+            --tiktok-gray: #121212;
+            --tiktok-light: #f8f8f8;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--tiktok-black) 0%, var(--tiktok-gray) 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .slide-container {
+            display: none;
+            background: var(--tiktok-gray);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(254, 44, 85, 0.2);
+            padding: 40px;
+            margin: 30px auto;
+            max-width: 1200px;
+            min-height: 650px;
+            position: relative;
+            border: 1px solid rgba(37, 244, 238, 0.1);
+        }
+        
+        .active-slide {
+            display: block;
+            animation: tiktokFade 0.6s ease;
+        }
+        
+        @keyframes tiktokFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+        
+        .contact-info {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            background: rgba(1, 1, 1, 0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(254, 44, 85, 0.3);
+            border: 1px solid var(--tiktok-blue);
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--tiktok-red), var(--tiktok-blue));
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 101;
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 700;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--tiktok-red), var(--tiktok-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        
+        .highlight-red {
+            color: var(--tiktok-red);
+            font-weight: 700;
+        }
+        
+        .highlight-blue {
+            color: var(--tiktok-blue);
+            font-weight: 700;
+        }
+        
+        .stat-box {
+            background: rgba(1, 1, 1, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(37, 244, 238, 0.2);
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-8px);
+            border-color: var(--tiktok-blue);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--tiktok-red), var(--tiktok-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--tiktok-light);
+            font-weight: 500;
+        }
+        
+        .category-card {
+            background: rgba(1, 1, 1, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--tiktok-red);
+        }
+        
+        .category-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--tiktok-blue);
+        }
+        
+        .btn-tiktok {
+            background: linear-gradient(135deg, var(--tiktok-red), var(--tiktok-blue));
+            color: white;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-tiktok:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(254, 44, 85, 0.4);
+            color: white;
+        }
+        
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            background: rgba(254, 44, 85, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(37, 244, 238, 0.3);
+        }
+        
+        .icon-box i {
+            font-size: 30px;
+            background: linear-gradient(135deg, var(--tiktok-red), var(--tiktok-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .brand-logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--tiktok-red), var(--tiktok-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+        }
+        
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+        
+        .case-study-box {
+            background: rgba(1, 1, 1, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-top: 4px solid var(--tiktok-blue);
+            height: 100%;
+        }
+        
+        .metric-highlight {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--tiktok-red), var(--tiktok-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tiktok-gradient-bg {
+            background: linear-gradient(135deg, rgba(254, 44, 85, 0.1), rgba(37, 244, 238, 0.1));
+            border-radius: 15px;
+            padding: 30px;
+        }
+        
+        .platform-tag {
+            display: inline-block;
+            background: var(--tiktok-red);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .screenshot-container {
+            background: rgba(1, 1, 1, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 2px solid var(--tiktok-red);
+            text-align: center;
+        }
+        
+        .vertical-screenshot {
+            max-height: 450px;
+            width: auto;
+            border-radius: 8px;
+            border: 2px solid var(--tiktok-blue);
+        }
+        
+        .performance-stats {
+            background: rgba(1, 1, 1, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat-item {
+            background: rgba(254, 44, 85, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-item .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--tiktok-blue);
+        }
+        
+        .stat-item .label {
+            font-size: 0.9rem;
+            color: var(--tiktok-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="contact-info">
+        <div><i class="fas fa-envelope me-2"></i> ellagrace5795@gmail.com</div>
+        <div><i class="fas fa-phone me-2"></i> +1 (548) 901-2636</div>
+    </div>
+    
+    <!-- Slide 1: Cover -->
+    <div class="slide-container active-slide" id="slide1">
+        <div class="slide-counter">1 / 6</div>
+        <div class="text-center d-flex flex-column justify-content-center align-items-center h-100">
+            <div class="brand-logo">EllaGrace</div>
+            <h1 class="hero-title">Premier TikTok Shop Growth Partner</h1>
+            <p class="lead fs-4 mb-5">Driving Ecosystem Excellence Through Curated Creator-Brand Partnerships</p>
+            <div class="platform-tag">OFFICIAL TIKTOK SHOP PARTNER</div>
+            
+            <div class="row w-100 mt-5">
+                <div class="col-md-3 mb-4">
+                    <div class="stat-box">
+                        <div class="icon-box mx-auto">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Ecosystem First</h4>
+                        <p>Building sustainable creator-brand relationships</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="stat-box">
+                        <div class="icon-box mx-auto">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Data Driven</h4>
+                        <p>Performance-optimized campaign strategies</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="stat-box">
+                        <div class="icon-box mx-auto">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Quality Focused</h4>
+                        <p>Vetted creators, premium content standards</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="stat-box">
+                        <div class="icon-box mx-auto">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Platform Aligned</h4>
+                        <p>Committed to TikTok Shop ecosystem growth</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 2: Category Performance -->
+    <div class="slide-container" id="slide2">
+        <div class="slide-counter">2 / 6</div>
+        <h2 class="text-center mb-4">Category <span class="highlight-blue">Excellence</span></h2>
+        <p class="text-center lead mb-5">Dominating Key Verticals Through Strategic Creator Partnerships</p>
+        
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <div class="screenshot-container">
+                    <div class="screenshot-title">Q3 2025 Category Performance</div>
+                    <!-- REPLACE WITH YOUR CATEGORY SCREENSHOT -->
+                    <div class="text-center">
+                        <img src="category.jpg" alt="Category Performance" class="vertical-screenshot">
+                    </div>
+                    
+                    <div class="performance-stats">
+                        <h5 class="text-center mb-3">Category Leadership</h5>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="value">$504K</div>
+                                <div class="label">Beauty & Personal Care</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$525K</div>
+                                <div class="label">Women's Fashion</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$144K</div>
+                                <div class="label">Sports & Outdoor</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$130K</div>
+                                <div class="label">Health & Nutrition</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="ps-4">
+                    <h3 class="highlight-red mb-4">Strategic Category Dominance</h3>
+                    
+                    <div class="category-card">
+                        <h5><i class="fas fa-crown me-2"></i>Beauty & Personal Care Leadership</h5>
+                        <p class="mb-2">Driving 35% of platform GMV in skincare and cosmetics through premium creator content</p>
+                        <div class="category-value">$504,627 GMV</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <h5><i class="fas fa-star me-2"></i>Fashion & Apparel Excellence</h5>
+                        <p class="mb-2">Transforming women's fashion discovery through authentic creator storytelling</p>
+                        <div class="category-value">$525,964 GMV</div>
+                    </div>
+                    
+                    <div class="category-card">
+                        <h5><i class="fas fa-chart-line me-2"></i>Emerging Category Growth</h5>
+                        <p class="mb-2">Pioneering success in Sports, Health, and Home categories through targeted creator activation</p>
+                        <div class="category-value">$295,234 GMV</div>
+                    </div>
+                    
+                    <div class="tiktok-gradient-bg mt-4">
+                        <h5 class="text-center">Total Platform Impact</h5>
+                        <div class="metric-highlight text-center">$1,427,549.74</div>
+                        <p class="text-center mb-0">Q3 2025 Total GMV Across All Categories</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 3: Brand Performance -->
+    <div class="slide-container" id="slide3">
+        <div class="slide-counter">3 / 6</div>
+        <h2 class="text-center mb-4">Brand <span class="highlight-red">Partnership Success</span></h2>
+        <p class="text-center lead mb-5">Driving Measurable Growth for TikTok Shop's Premier Brands</p>
+        
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <div class="screenshot-container">
+                    <div class="screenshot-title">Top Performing Brand Partners</div>
+                    <!-- REPLACE WITH YOUR SHOP SCREENSHOT -->
+                    <div class="text-center">
+                        <img src="shop.jpg" alt="Brand Performance" class="vertical-screenshot">
+                    </div>
+                    
+                    <div class="performance-stats">
+                        <h5 class="text-center mb-3">Elite Brand Portfolio</h5>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="value">$354K</div>
+                                <div class="label">Medicube US</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$139K</div>
+                                <div class="label">Halara US</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$69K</div>
+                                <div class="label">SHAPSHE</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">20+</div>
+                                <div class="label">Active Brands</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-7">
+                <div class="ps-4">
+                    <h3 class="highlight-blue mb-4">Scalable Brand Growth Framework</h3>
+                    
+                    <div class="case-study-box">
+                        <h5><i class="fas fa-trophy me-2"></i>Premium Brand Acceleration</h5>
+                        <p>Transforming established brands into TikTok Shop powerhouses through strategic creator ecosystem development</p>
+                        <div class="mt-2">
+                            <span class="badge bg-primary me-2">Medicube: $354K</span>
+                            <span class="badge bg-primary me-2">Halara: $139K</span>
+                            <span class="badge bg-primary">SHAPSHE: $69K</span>
+                        </div>
+                    </div>
+                    
+                    <div class="case-study-box">
+                        <h5><i class="fas fa-seedling me-2"></i>Emerging Brand Incubation</h5>
+                        <p>Launching and scaling new brands through data-driven creator matching and content optimization</p>
+                        <div class="mt-2">
+                            <span class="badge bg-success me-2">Delimira: $65K</span>
+                            <span class="badge bg-success me-2">Dokotoo: $60K</span>
+                            <span class="badge bg-success">O Y S: $53K</span>
+                        </div>
+                    </div>
+                    
+                    <div class="case-study-box">
+                        <h5><i class="fas fa-network-wired me-2"></i>Multi-Brand Portfolio Management</h5>
+                        <p>Simultaneously driving growth across 20+ brand partners through efficient creator resource allocation</p>
+                        <div class="mt-2">
+                            <span class="badge bg-warning me-2">500+ Creators</span>
+                            <span class="badge bg-warning me-2">1,000+ Videos</span>
+                            <span class="badge bg-warning">48M+ Views</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Creator Ecosystem -->
+    <div class="slide-container" id="slide4">
+        <div class="slide-counter">4 / 6</div>
+        <h2 class="text-center mb-5">Premium <span class="highlight-red">Creator Ecosystem</span></h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="text-center p-4 h-100">
+                    <div class="icon-box mx-auto">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4>Creator Development</h4>
+                    <p>Comprehensive training programs elevating creator capabilities in commerce-focused content creation, platform best practices, and brand partnership management</p>
+                    <div class="mt-3">
+                        <span class="badge bg-primary me-2">Content Academy</span>
+                        <span class="badge bg-primary me-2">Performance Coaching</span>
+                        <span class="badge bg-primary">Industry Insights</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="text-center p-4 h-100">
+                    <div class="icon-box mx-auto">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Community Infrastructure</h4>
+                    <p>Dedicated creator communities fostering collaboration, knowledge sharing, and exclusive access to premium brand opportunities</p>
+                    <div class="mt-3">
+                        <span class="badge bg-success me-2">Lark Communities</span>
+                        <span class="badge bg-success me-2">Discord Networks</span>
+                        <span class="badge bg-success">Real-time Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="text-center p-4 h-100">
+                    <div class="icon-box mx-auto">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Partnership Excellence</h4>
+                    <p>Curated brand collaborations matching creators with ideal partners based on audience alignment, content style, and performance history</p>
+                    <div class="mt-3">
+                        <span class="badge bg-warning me-2">Premium Brands</span>
+                        <span class="badge bg-warning me-2">Exclusive Launches</span>
+                        <span class="badge bg-warning">Product Testing</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="text-center p-4 h-100">
+                    <div class="icon-box mx-auto">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4>Performance Optimization</h4>
+                    <p>Data-driven insights and analytics guiding creators toward content strategies that maximize engagement and conversion rates</p>
+                    <div class="mt-3">
+                        <span class="badge bg-info me-2">Performance Analytics</span>
+                        <span class="badge bg-info me-2">Content Strategy</span>
+                        <span class="badge bg-info">ROI Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 5: Platform Partnership -->
+    <div class="slide-container" id="slide5">
+        <div class="slide-counter">5 / 6</div>
+        <h2 class="text-center mb-5">TikTok Shop <span class="highlight-blue">Strategic Alignment</span></h2>
+        
+        <div class="row mb-5">
+            <div class="col-md-8 mx-auto">
+                <div class="tiktok-gradient-bg text-center">
+                    <h3 class="mb-3">Committed to Ecosystem Growth</h3>
+                    <p class="lead">Driving platform success through quality content, authentic engagement, and sustainable creator-brand relationships</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="case-study-box text-center h-100">
+                    <div class="icon-box mx-auto mb-3">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Quality Standards</h4>
+                    <p>Maintaining the highest content quality and creator vetting standards to preserve platform integrity</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="case-study-box text-center h-100">
+                    <div class="icon-box mx-auto mb-3">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h4>Innovation Driver</h4>
+                    <p>Pioneering new content formats and commerce strategies that push platform capabilities forward</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="case-study-box text-center h-100">
+                    <div class="icon-box mx-auto mb-3">
+                        <i class="fas fa-chart-network"></i>
+                    </div>
+                    <h4>Ecosystem Builder</h4>
+                    <p>Developing sustainable creator economies that benefit all platform stakeholders long-term</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="text-center p-4" style="background: rgba(254, 44, 85, 0.1); border-radius: 15px; border: 1px solid var(--tiktok-blue);">
+                    <h4 class="mb-3">Future Vision: Platform Partnership</h4>
+                    <p class="mb-0">We seek to deepen our collaboration with TikTok Shop through exclusive programs, beta feature testing, and joint ecosystem development initiatives that drive mutual growth and platform excellence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Slide 6: Contact -->
+    <div class="slide-container" id="slide6">
+        <div class="slide-counter">6 / 6</div>
+        <div class="text-center d-flex flex-column justify-content-center align-items-center h-100">
+            <h2 class="mb-4">Strategic <span class="highlight-blue">Partnership Opportunity</span></h2>
+            <p class="lead mb-5">Let's discuss how EllaGrace can contribute to TikTok Shop's ecosystem growth</p>
+            
+            <div class="row w-100 mb-5">
+                <div class="col-md-6 mb-4">
+                    <div class="p-4 case-study-box h-100">
+                        <h4><i class="fas fa-bullseye me-2"></i>Our Value Proposition</h4>
+                        <ul class="text-start">
+                            <li>Proven track record driving $1.4M+ quarterly GMV</li>
+                            <li>Elite creator network with premium content standards</li>
+                            <li>Strategic category dominance in Beauty & Fashion</li>
+                            <li>Data-driven optimization and performance analytics</li>
+                            <li>Commitment to platform ecosystem quality</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="p-4 case-study-box h-100">
+                        <h4><i class="fas fa-handshake me-2"></i>Partnership Goals</h4>
+                        <ul class="text-start">
+                            <li>Exclusive program collaboration</li>
+                            <li>Beta feature testing and feedback</li>
+                            <li>Joint creator development initiatives</li>
+                            <li>Category expansion strategies</li>
+                            <li>Platform best practices development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-5 rounded-3 w-75" style="background: rgba(1, 1, 1, 0.8); border: 2px solid var(--tiktok-blue);">
+                <h3 class="mb-4">Connect With Our Leadership Team</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-envelope me-2"></i> Strategic Partnerships</h5>
+                        <p class="mb-0">ellagrace5795@gmail.com</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h5><i class="fas fa-phone me-2"></i> Direct Contact</h5>
+                        <p class="mb-0">+1 (548) 901-2636</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h5><i class="fas fa-bullseye me-2"></i> Focus Area</h5>
+                    <p class="mb-0">US TikTok Shop Ecosystem Development & Strategic Partnerships</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="nav-controls">
+        <button class="btn btn-tiktok me-2" id="prevBtn"><i class="fas fa-chevron-left me-1"></i> Previous</button>
+        <button class="btn btn-tiktok" id="nextBtn">Next <i class="fas fa-chevron-right ms-1"></i></button>
+    </div>
+
+    <script>
+        // Slideshow controls
+        const slides = document.querySelectorAll('.slide-container');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+        
+        function showSlide(n) {
+            slides.forEach(slide => {
+                slide.classList.remove('active-slide');
+            });
+            
+            currentSlide = n;
+            
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            }
+            
+            if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+            
+            slides[currentSlide].classList.add('active-slide');
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+        
+        // Initialize first slide
+        showSlide(0);
+    </script>
+</body>
+</html>
